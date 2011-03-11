@@ -10,6 +10,11 @@ and light on resources.
 
 It's not bound to specific model names and plays nice with will_paginate.
 
+= Install
+
+Go to your app folder and run : 
+rails plugin install git://github.com/railsagile/simple-private-messages.git
+
 = Setup
 
 First create the private message model by running the simple_private_messages:model
