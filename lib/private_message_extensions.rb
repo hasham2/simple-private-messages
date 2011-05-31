@@ -13,15 +13,13 @@ module Professionalnerd # :nodoc:
         #
         # Also adds a named scopes of :read and :unread, to get, well, read and unread messages.
         def is_private_message(options = {})
-          options[:class_name] ||= 'User'
+          options[:class_name] ||= 'User' #not needed anymore 
           
           unless included_modules.include? InstanceMethods 
             belongs_to :sender,
-                       :class_name => options[:class_name],
-                       :foreign_key => 'sender_id'
+                       :polymorphic => true
             belongs_to :recipient,
-                       :class_name => options[:class_name],
-                       :foreign_key => 'recipient_id'
+                       :polymorphic => true
 
             extend ClassMethods 
             include InstanceMethods 
@@ -36,7 +34,7 @@ module Professionalnerd # :nodoc:
         # Ensures the passed user is either the sender or the recipient then returns the message.
         # If the reader is the recipient and the message has yet not been read, it marks the read_at timestamp.
         def read(id, reader)
-          message = find(id, :conditions => ["sender_id = ? OR recipient_id = ?", reader, reader])
+          message = find(id, :conditions => ["(sender_id = ? AND sender_type = ?) OR (recipient_id = ? AND recipient_type = ?)", reader.id, reader.class, reader.id, reader.class])
           if message.read_at.nil? && reader == message.recipient
             message.read_at = Time.now
             message.save!

@@ -2,6 +2,7 @@ class <%= "Create#{plural_camel_case_name}" %> < ActiveRecord::Migration
   def self.up
     create_table :<%= plural_lower_case_name %> do |t|
       t.integer :sender_id, :recipient_id
+      t.string :sender_type, :recipient_type
       t.boolean :sender_deleted, :recipient_deleted, :default => false
       t.string :subject
       t.text :body

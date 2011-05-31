@@ -18,14 +18,14 @@ module Professionalnerd #:nodoc:
             table_name = options[:class_name].constantize.table_name
             
             has_many :sent_messages,
+                     :as => :sender,
                      :class_name => options[:class_name],
-                     :foreign_key => 'sender_id',
                      :order => "#{table_name}.created_at DESC",
                      :conditions => ["#{table_name}.sender_deleted = ?", false]
 
             has_many :received_messages,
+                     :as => :recipient, 
                      :class_name => options[:class_name],
-                     :foreign_key => 'recipient_id',
                      :order => "#{table_name}.created_at DESC",
                      :conditions => ["#{table_name}.recipient_deleted = ?", false]
 
@@ -48,7 +48,7 @@ module Professionalnerd #:nodoc:
         
         # Returns the number of unread messages for this user
         def unread_message_count
-          eval options[:class_name] + '.count(:conditions => ["recipient_id = ? AND read_at IS NULL and recipient_deleted = ?", self, false])'
+          eval options[:class_name] + '.count(:conditions => ["recipient_id = ? AND recipient_type = ? AND read_at IS NULL and recipient_deleted = ?", self, self.class, false])'
         end
       end 
     end

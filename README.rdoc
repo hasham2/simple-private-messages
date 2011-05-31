@@ -1,5 +1,9 @@
 = Simple Private Messages
 
+This fork utilizes polymorphic association between message and other models.
+
+Sender and recipient can be instances of diffrent classes.
+
 Now Rails 3 compatible!
 
 For Rails 2.3.x users there is an appropriately named branch that can be used.
@@ -13,7 +17,7 @@ It's not bound to specific model names and plays nice with will_paginate.
 = Install
 
 Go to your app folder and run : 
-  rails plugin install git://github.com/railsagile/simple-private-messages.git
+  rails plugin install git://github.com/hasham2/simple-private-messages.git
 
 = Setup
 
